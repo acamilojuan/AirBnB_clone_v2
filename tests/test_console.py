@@ -17,6 +17,14 @@ from re import search
 
 class TestHBCommand(unittest.TestCase):
     """Test for command line"""
+    if getenv("HBNB_TYPE_STORAGE") != "db":
+
+        def setUp(self):
+            """Clean code after each test.
+            """
+            if os.path.isfile("file.json"):
+                os.remove("file.json")
+            FileStorage._FileStorage__objects = {}
 
     def test_style_base(self):
             """test pep8 style"""
@@ -25,8 +33,7 @@ class TestHBCommand(unittest.TestCase):
             self.assertEqual(m.total_errors, 0, "fix pep8")
 
     def test_docstring(self):
-        """Test doc strings.
-        """
+        """ """
         self.assertIsNotNone(HBNBCommand._doc_)
         self.assertIsNotNone(HBNBCommand.precmd._doc_)
         self.assertIsNotNone(HBNBCommand.do_quit._doc_)
@@ -38,6 +45,17 @@ class TestHBCommand(unittest.TestCase):
         self.assertIsNotNone(HBNBCommand.do_all._doc_)
         self.assertIsNotNone(HBNBCommand.do_update._doc_)
         self.assertIsNotNone(HBNBCommand.do_count._doc_)
+
+    def test_help(self):
+        """Test help message.
+        """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("help")
+        val = f.getvalue()
+        msg = """\nDocumented commands (type help <topic>):
+========================================
+EOF  all  count  create  destroy  help  quit  show  update\n\n"""
+        self.assertEqual(val, msg)
 
     def test_quit(self, command):
         """ Method to exit the HBNB console"""
