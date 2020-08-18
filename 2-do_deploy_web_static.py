@@ -8,7 +8,7 @@ env.hosts = ['34.75.139.167', '35.231.179.116']
 
 
 def do_deploy(archive_path):
-    """ """
+    """ Method """
     if isfile(archive_path):
         pre_path = archive_path.split("/")[1]
         put(archive_path, "/tmp/")
