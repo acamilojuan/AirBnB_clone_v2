@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-cLass DBStorage to use databasel 
+cLass DBStorage to use databasel
 """
 
 import models
